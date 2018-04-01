@@ -1,0 +1,58 @@
+
+
+mysql> CREATE PROCEDURE sales_artist(IN artist_name VARCHAR(60), OUT sales INT)
+    -> BEGIN
+    -> SELECT  COUNT( invoicelineid ) FROM invoiceline INNER JOIN (SELECT trackid FROM track INNER JOIN (SELECT albumid FROM album INNER JOIN artist ON album.artistid = artist.artistid AND artist.Name=artist_name ) as A ON  track.albumid=A.albumid ) as T ON invoiceline.trackid = T.trackid;
+    -> END
+    -> $$
+
+mysql> show profile cpu for query 1;
++---------------------------+----------+----------+------------+
+| Status                    | Duration | CPU_user | CPU_system |
++---------------------------+----------+----------+------------+
+| continuing inside routine | 0.000007 | 0.000000 |   0.000000 |
+| checking permissions      | 0.000003 | 0.000000 |   0.000000 |
+| checking permissions      | 0.000001 | 0.000000 |   0.000000 |
+| checking permissions      | 0.000001 | 0.000000 |   0.000000 |
+| checking permissions      | 0.000002 | 0.000000 |   0.000000 |
+| Opening tables            | 0.000020 | 0.000000 |   0.000000 |
+| init                      | 0.000041 | 0.000000 |   0.000000 |
+| System lock               | 0.000008 | 0.000000 |   0.000000 |
+| optimizing                | 0.000018 | 0.000000 |   0.000000 |
+| statistics                | 0.000044 | 0.000000 |   0.000000 |
+| preparing                 | 0.000017 | 0.000000 |   0.000000 |
+| executing                 | 0.000002 | 0.000000 |   0.000000 |
+| Sending data              | 0.000410 | 0.000000 |   0.000000 |
+| end                       | 0.000002 | 0.000000 |   0.000000 |
+| query end                 | 0.000005 | 0.000000 |   0.000000 |
+| closing tables            | 0.000059 | 0.000000 |   0.000000 |
++---------------------------+----------+----------+------------+
+
+
+mysql> DELIMITER $$
+mysql> CREATE PROCEDURE track_bought(IN first_name VARCHAR(20),IN last_name VARCHAR(20), OUT tracks INT)
+    -> BEGIN
+    -> SELECT COUNT(invoicelineid) FROM invoiceline INNER JOIN (SELECT invoiceid FROM customer INNER JOIN invoice ON customer.customerid=invoice.customerid AND customer.firstname=first_name AND customer.lastname=last_name ) as I ON invoiceline.invoiceid=I.invoiceid;
+    -> END
+    -> $$
+
+mysql> show profile cpu for query 2;
++---------------------------+----------+----------+------------+
+| Status                    | Duration | CPU_user | CPU_system |
++---------------------------+----------+----------+------------+
+| continuing inside routine | 0.000008 | 0.000000 |   0.000000 |
+| checking permissions      | 0.000002 | 0.000000 |   0.000000 |
+| checking permissions      | 0.000001 | 0.000000 |   0.000000 |
+| checking permissions      | 0.000002 | 0.000000 |   0.000000 |
+| Opening tables            | 0.000016 | 0.000000 |   0.000000 |
+| init                      | 0.000022 | 0.000000 |   0.000000 |
+| System lock               | 0.000006 | 0.000000 |   0.000000 |
+| optimizing                | 0.000014 | 0.000000 |   0.000000 |
+| statistics                | 0.000025 | 0.000000 |   0.000000 |
+| preparing                 | 0.000015 | 0.000000 |   0.000000 |
+| executing                 | 0.000001 | 0.000000 |   0.000000 |
+| Sending data              | 0.000097 | 0.000000 |   0.000000 |
+| end                       | 0.000002 | 0.000000 |   0.000000 |
+| query end                 | 0.000004 | 0.000000 |   0.000000 |
+| closing tables            | 0.000058 | 0.000000 |   0.000000 |
++---------------------------+----------+----------+------------+

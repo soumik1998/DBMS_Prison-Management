@@ -1,0 +1,278 @@
+
+WITHOUT - INDEXING;
+
+ 1 | 0.07709550 | SELECT  COUNT( invoicelineid ) FROM invoiceline INNER JOIN (SELECT trackid FROM track INNER JOIN (SELECT albumid FROM album INNER JOIN artist ON album.artistid = artist.artistid AND artist.Name="Metallica" ) as A ON  track.albumid=A.albumid ) as T ON invoiceline.trackid = T.trackid
+
+mysql> SHOW PROFILE CPU FOR QUERY 1;
++----------------------+----------+----------+------------+
+| Status               | Duration | CPU_user | CPU_system |
++----------------------+----------+----------+------------+
+| starting             | 0.000116 | 0.000000 |   0.000000 |
+| checking permissions | 0.000004 | 0.000000 |   0.000000 |
+| checking permissions | 0.000002 | 0.000000 |   0.000000 |
+| checking permissions | 0.000001 | 0.000000 |   0.000000 |
+| checking permissions | 0.000003 | 0.000000 |   0.000000 |
+| Opening tables       | 0.000034 | 0.000000 |   0.000000 |
+| init                 | 0.000053 | 0.000000 |   0.000000 |
+| System lock          | 0.000011 | 0.000000 |   0.000000 |
+| optimizing           | 0.000016 | 0.000000 |   0.000000 |
+| statistics           | 0.000040 | 0.000000 |   0.000000 |
+| preparing            | 0.000019 | 0.000000 |   0.000000 |
+| executing            | 0.000001 | 0.000000 |   0.000000 |
+| Sending data         | 0.076667 | 0.000000 |   0.000000 |
+| end                  | 0.000008 | 0.000000 |   0.000000 |
+| query end            | 0.000009 | 0.000000 |   0.000000 |
+| closing tables       | 0.000009 | 0.000000 |   0.000000 |
+| freeing items        | 0.000053 | 0.000000 |   0.000000 |
+| cleaning up          | 0.000052 | 0.000000 |   0.000000 |
++----------------------+----------+----------+------------+
+
+ 2 | 0.02054400 | SELECT COUNT(invoicelineid) FROM invoiceline INNER JOIN (SELECT invoiceid FROM customer INNER JOIN invoice ON customer.customerid=invoice.customerid AND customer.firstname="Martha" AND customer.lastname="Silk" ) as I ON invoiceline.invoiceid=I.invoiceid
+
+mysql> SHOW PROFILE CPU FOR QUERY 2;
++----------------------+----------+----------+------------+
+| Status               | Duration | CPU_user | CPU_system |
++----------------------+----------+----------+------------+
+| starting             | 0.000090 | 0.000000 |   0.000000 |
+| checking permissions | 0.000004 | 0.000000 |   0.000000 |
+| checking permissions | 0.000001 | 0.000000 |   0.000000 |
+| checking permissions | 0.000003 | 0.000000 |   0.000000 |
+| Opening tables       | 0.000023 | 0.000000 |   0.000000 |
+| init                 | 0.000040 | 0.000000 |   0.000000 |
+| System lock          | 0.000007 | 0.000000 |   0.000000 |
+| optimizing           | 0.000015 | 0.000000 |   0.000000 |
+| statistics           | 0.000031 | 0.000000 |   0.000000 |
+| preparing            | 0.000017 | 0.000000 |   0.000000 |
+| executing            | 0.000001 | 0.000000 |   0.000000 |
+| Sending data         | 0.020223 | 0.000000 |   0.000000 |
+| end                  | 0.000008 | 0.000000 |   0.000000 |
+| query end            | 0.000009 | 0.000000 |   0.000000 |
+| closing tables       | 0.000007 | 0.000000 |   0.000000 |
+| freeing items        | 0.000052 | 0.000000 |   0.000000 |
+| cleaning up          | 0.000013 | 0.000000 |   0.000000 |
++----------------------+----------+----------+------------+
+
+ 3 | 0.01704725 | SELECT name FROM mediatype INNER JOIN (SELECT DISTINCT mediatypeid FROM track INNER JOIN (SELECT trackid FROM invoiceline INNER JOIN  ( SELECT invoicelineid FROM invoiceline INNER JOIN( SELECT invoiceid FROM invoice INNER JOIN customer ON invoice.customerid=customer.customerid AND customer.firstname
+
+mysql> SHOW PROFILE CPU FOR QUERY 3;
++----------------------+----------+----------+------------+
+| Status               | Duration | CPU_user | CPU_system |
++----------------------+----------+----------+------------+
+| starting             | 0.000095 | 0.000000 |   0.000000 |
+| checking permissions | 0.000003 | 0.000000 |   0.000000 |
+| checking permissions | 0.000001 | 0.000000 |   0.000000 |
+| checking permissions | 0.000001 | 0.000000 |   0.000000 |
+| checking permissions | 0.000002 | 0.000000 |   0.000000 |
+| checking permissions | 0.000004 | 0.000000 |   0.000000 |
+| checking permissions | 0.000002 | 0.000000 |   0.000000 |
+| Opening tables       | 0.000802 | 0.000000 |   0.000000 |
+| init                 | 0.000061 | 0.000000 |   0.000000 |
+| System lock          | 0.000008 | 0.000000 |   0.000000 |
+| optimizing           | 0.000002 | 0.000000 |   0.000000 |
+| optimizing           | 0.000011 | 0.000000 |   0.000000 |
+| statistics           | 0.000044 | 0.000000 |   0.000000 |
+| preparing            | 0.000018 | 0.000000 |   0.000000 |
+| Creating tmp table   | 0.000032 | 0.000000 |   0.000000 |
+| statistics           | 0.000019 | 0.000000 |   0.000000 |
+| preparing            | 0.000004 | 0.000000 |   0.000000 |
+| executing            | 0.000008 | 0.000000 |   0.000000 |
+| Sending data         | 0.014777 | 0.000000 |   0.000000 |
+| executing            | 0.000011 | 0.000000 |   0.000000 |
+| Sending data         | 0.000733 | 0.000000 |   0.000000 |
+| end                  | 0.000033 | 0.000000 |   0.000000 |
+| query end            | 0.000019 | 0.000000 |   0.000000 |
+| removing tmp table   | 0.000026 | 0.000000 |   0.000000 |
+| query end            | 0.000005 | 0.000000 |   0.000000 |
+| closing tables       | 0.000005 | 0.000000 |   0.000000 |
+| removing tmp table   | 0.000021 | 0.000000 |   0.000000 |
+| closing tables       | 0.000027 | 0.000000 |   0.000000 |
+| freeing items        | 0.000208 | 0.000000 |   0.000000 |
+| cleaning up          | 0.000069 | 0.000000 |   0.000000 |
++----------------------+----------+----------+------------+
+
+AFTER INDEXING
+ only after primary key indexing
+
+1 | 0.06887925 | SELECT  COUNT( invoicelineid ) FROM invoiceline INNER JOIN (SELECT trackid FROM track INNER JOIN (SELECT albumid FROM album INNER JOIN artist ON album.artistid = artist.artistid AND artist.Name="Metallica" ) as A ON  track.albumid=A.albumid ) as T ON invoiceline.trackid = T.trackid
+
+mysql> show profile cpu for query 8;
++----------------------+----------+----------+------------+
+| Status               | Duration | CPU_user | CPU_system |
++----------------------+----------+----------+------------+
+| starting             | 0.000151 | 0.000000 |   0.000000 |
+| checking permissions | 0.000006 | 0.000000 |   0.000000 |
+| checking permissions | 0.000002 | 0.000000 |   0.000000 |
+| checking permissions | 0.000001 | 0.000000 |   0.000000 |
+| checking permissions | 0.000004 | 0.000000 |   0.000000 |
+| Opening tables       | 0.003125 | 0.000000 |   0.000000 |
+| init                 | 0.000065 | 0.000000 |   0.000000 |
+| System lock          | 0.000012 | 0.000000 |   0.000000 |
+| optimizing           | 0.000019 | 0.000000 |   0.000000 |
+| statistics           | 0.000053 | 0.000000 |   0.000000 |
+| preparing            | 0.000019 | 0.000000 |   0.000000 |
+| executing            | 0.000002 | 0.000000 |   0.000000 |
+| Sending data         | 0.065264 | 0.000000 |   0.000000 |
+| end                  | 0.000014 | 0.000000 |   0.000000 |
+| query end            | 0.000017 | 0.000000 |   0.000000 |
+| closing tables       | 0.000015 | 0.000000 |   0.000000 |
+| freeing items        | 0.000086 | 0.000000 |   0.000000 |
+| cleaning up          | 0.000027 | 0.000000 |   0.000000 |
++----------------------+----------+----------+------------+
+
+9 | 0.06550075 | SELECT COUNT(invoicelineid) FROM invoiceline INNER JOIN (SELECT invoiceid FROM customer INNER JOIN invoice ON customer.customerid=invoice.customerid AND customer.firstname="Martha" AND customer.lastname="Silk" ) as I ON invoiceline.invoiceid=I.invoiceid
+
+mysql> show profile cpu for query 9;
++----------------------+----------+----------+------------+
+| Status               | Duration | CPU_user | CPU_system |
++----------------------+----------+----------+------------+
+| starting             | 0.000080 | 0.000000 |   0.000000 |
+| checking permissions | 0.000003 | 0.000000 |   0.000000 |
+| checking permissions | 0.000001 | 0.000000 |   0.000000 |
+| checking permissions | 0.000004 | 0.000000 |   0.000000 |
+| Opening tables       | 0.002368 | 0.000000 |   0.000000 |
+| init                 | 0.000040 | 0.000000 |   0.000000 |
+| System lock          | 0.000007 | 0.000000 |   0.000000 |
+| optimizing           | 0.000013 | 0.000000 |   0.000000 |
+| statistics           | 0.000029 | 0.000000 |   0.000000 |
+| preparing            | 0.000017 | 0.000000 |   0.000000 |
+| executing            | 0.000002 | 0.000000 |   0.000000 |
+| Sending data         | 0.062794 | 0.000000 |   0.000000 |
+| end                  | 0.000012 | 0.000000 |   0.000000 |
+| query end            | 0.000011 | 0.000000 |   0.000000 |
+| closing tables       | 0.000012 | 0.000000 |   0.000000 |
+| freeing items        | 0.000081 | 0.000000 |   0.000000 |
+| cleaning up          | 0.000026 | 0.000000 |   0.000000 |
++----------------------+----------+----------+------------+
+
+10 | 0.04470550 | SELECT name FROM mediatype INNER JOIN (SELECT DISTINCT mediatypeid FROM track INNER JOIN (SELECT trackid FROM invoiceline INNER JOIN  ( SELECT invoicelineid FROM invoiceline INNER JOIN( SELECT invoiceid FROM invoice INNER JOIN customer ON invoice.customerid=customer.customerid AND customer.firstname |
+
+mysql> show profile cpu for query 10;
++----------------------+----------+----------+------------+
+| Status               | Duration | CPU_user | CPU_system |
++----------------------+----------+----------+------------+
+| starting             | 0.000117 | 0.000000 |   0.000000 |
+| checking permissions | 0.000003 | 0.000000 |   0.000000 |
+| checking permissions | 0.000002 | 0.000000 |   0.000000 |
+| checking permissions | 0.000001 | 0.000000 |   0.000000 |
+| checking permissions | 0.000001 | 0.000000 |   0.000000 |
+| checking permissions | 0.000001 | 0.000000 |   0.000000 |
+| checking permissions | 0.000003 | 0.000000 |   0.000000 |
+| Opening tables       | 0.000931 | 0.000000 |   0.000000 |
+| init                 | 0.000082 | 0.015625 |   0.000000 |
+| System lock          | 0.000017 | 0.000000 |   0.000000 |
+| optimizing           | 0.000003 | 0.000000 |   0.000000 |
+| optimizing           | 0.000017 | 0.000000 |   0.000000 |
+| statistics           | 0.000078 | 0.000000 |   0.000000 |
+| preparing            | 0.000026 | 0.000000 |   0.000000 |
+| Creating tmp table   | 0.000027 | 0.000000 |   0.000000 |
+| statistics           | 0.000025 | 0.000000 |   0.000000 |
+| preparing            | 0.000013 | 0.000000 |   0.000000 |
+| executing            | 0.000015 | 0.000000 |   0.000000 |
+| Sending data         | 0.000069 | 0.000000 |   0.000000 |
+| executing            | 0.000004 | 0.000000 |   0.000000 |
+| Sending data         | 0.043124 | 0.000000 |   0.000000 |
+| end                  | 0.000007 | 0.000000 |   0.000000 |
+| query end            | 0.000009 | 0.000000 |   0.000000 |
+| removing tmp table   | 0.000030 | 0.000000 |   0.000000 |
+| query end            | 0.000004 | 0.000000 |   0.000000 |
+| closing tables       | 0.000003 | 0.000000 |   0.000000 |
+| removing tmp table   | 0.000010 | 0.000000 |   0.000000 |
+| closing tables       | 0.000009 | 0.000000 |   0.000000 |
+| freeing items        | 0.000059 | 0.000000 |   0.000000 |
+| cleaning up          | 0.000018 | 0.000000 |   0.000000 |
++----------------------+----------+----------+------------+
+
+AFTER INDEXING ON FPREIGNKEY
+
+                                                   |
+|       21 | 0.00084000 | SELECT  COUNT( invoicelineid ) FROM invoiceline INNER JOIN (SELECT trackid FROM track INNER JOIN (SELECT albumid FROM album INNER JOIN artist ON album.artistid = artist.artistid AND artist.Name="Metallica" ) as A ON  track.albumid=A.albumid ) as T ON invoiceline.trackid = T.trackid
+
+mysql> show profile cpu for query 21;
++----------------------+----------+----------+------------+
+| Status               | Duration | CPU_user | CPU_system |
++----------------------+----------+----------+------------+
+| starting             | 0.000101 | 0.000000 |   0.000000 |
+| checking permissions | 0.000003 | 0.000000 |   0.000000 |
+| checking permissions | 0.000002 | 0.000000 |   0.000000 |
+| checking permissions | 0.000001 | 0.000000 |   0.000000 |
+| checking permissions | 0.000003 | 0.000000 |   0.000000 |
+| Opening tables       | 0.000027 | 0.000000 |   0.000000 |
+| init                 | 0.000053 | 0.000000 |   0.000000 |
+| System lock          | 0.000009 | 0.000000 |   0.000000 |
+| optimizing           | 0.000018 | 0.000000 |   0.000000 |
+| statistics           | 0.000050 | 0.000000 |   0.000000 |
+| preparing            | 0.000020 | 0.000000 |   0.000000 |
+| executing            | 0.000002 | 0.000000 |   0.000000 |
+| Sending data         | 0.000487 | 0.000000 |   0.000000 |
+| end                  | 0.000003 | 0.000000 |   0.000000 |
+| query end            | 0.000006 | 0.000000 |   0.000000 |
+| closing tables       | 0.000006 | 0.000000 |   0.000000 |
+| freeing items        | 0.000036 | 0.000000 |   0.000000 |
+| cleaning up          | 0.000014 | 0.000000 |   0.000000 |
++----------------------+----------+----------+------------+
+
+22 | 0.00046400 | SELECT COUNT(invoicelineid) FROM invoiceline INNER JOIN (SELECT invoiceid FROM customer INNER JOIN invoice ON customer.customerid=invoice.customerid AND customer.firstname="Martha" AND customer.lastname="Silk" ) as I ON invoiceline.invoiceid=I.invoiceid
+
+mysql> show profile cpu for query 22;
++----------------------+----------+----------+------------+
+| Status               | Duration | CPU_user | CPU_system |
++----------------------+----------+----------+------------+
+| starting             | 0.000082 | 0.000000 |   0.000000 |
+| checking permissions | 0.000003 | 0.000000 |   0.000000 |
+| checking permissions | 0.000002 | 0.000000 |   0.000000 |
+| checking permissions | 0.000003 | 0.000000 |   0.000000 |
+| Opening tables       | 0.000027 | 0.000000 |   0.000000 |
+| init                 | 0.000034 | 0.000000 |   0.000000 |
+| System lock          | 0.000007 | 0.000000 |   0.000000 |
+| optimizing           | 0.000014 | 0.000000 |   0.000000 |
+| statistics           | 0.000037 | 0.000000 |   0.000000 |
+| preparing            | 0.000020 | 0.000000 |   0.000000 |
+| executing            | 0.000001 | 0.000000 |   0.000000 |
+| Sending data         | 0.000166 | 0.000000 |   0.000000 |
+| end                  | 0.000003 | 0.000000 |   0.000000 |
+| query end            | 0.000007 | 0.000000 |   0.000000 |
+| closing tables       | 0.000006 | 0.000000 |   0.000000 |
+| freeing items        | 0.000036 | 0.000000 |   0.000000 |
+| cleaning up          | 0.000017 | 0.000000 |   0.000000 |
++----------------------+----------+----------+------------+
+
+ 23 | 0.00175350 | SELECT name FROM mediatype INNER JOIN (SELECT DISTINCT mediatypeid FROM track INNER JOIN (SELECT trackid FROM invoiceline INNER JOIN  ( SELECT invoicelineid FROM invoiceline INNER JOIN( SELECT invoiceid FROM invoice INNER JOIN customer ON invoice.customerid=customer.customerid AND customer.firstname |
+
+mysql> show profile cpu for query 23;
++----------------------+----------+----------+------------+
+| Status               | Duration | CPU_user | CPU_system |
++----------------------+----------+----------+------------+
+| starting             | 0.000130 | 0.000000 |   0.000000 |
+| checking permissions | 0.000005 | 0.000000 |   0.000000 |
+| checking permissions | 0.000001 | 0.000000 |   0.000000 |
+| checking permissions | 0.000001 | 0.000000 |   0.000000 |
+| checking permissions | 0.000002 | 0.000000 |   0.000000 |
+| checking permissions | 0.000001 | 0.000000 |   0.000000 |
+| checking permissions | 0.000003 | 0.000000 |   0.000000 |
+| Opening tables       | 0.000858 | 0.000000 |   0.000000 |
+| init                 | 0.000081 | 0.000000 |   0.000000 |
+| System lock          | 0.000012 | 0.000000 |   0.000000 |
+| optimizing           | 0.000002 | 0.000000 |   0.000000 |
+| optimizing           | 0.000017 | 0.000000 |   0.000000 |
+| statistics           | 0.000055 | 0.000000 |   0.000000 |
+| preparing            | 0.000016 | 0.000000 |   0.000000 |
+| Creating tmp table   | 0.000016 | 0.000000 |   0.000000 |
+| statistics           | 0.000017 | 0.000000 |   0.000000 |
+| preparing            | 0.000004 | 0.000000 |   0.000000 |
+| executing            | 0.000009 | 0.000000 |   0.000000 |
+| Sending data         | 0.000044 | 0.000000 |   0.000000 |
+| executing            | 0.000002 | 0.000000 |   0.000000 |
+| Sending data         | 0.000381 | 0.000000 |   0.000000 |
+| end                  | 0.000003 | 0.000000 |   0.000000 |
+| query end            | 0.000009 | 0.000000 |   0.000000 |
+| removing tmp table   | 0.000006 | 0.000000 |   0.000000 |
+| query end            | 0.000002 | 0.000000 |   0.000000 |
+| closing tables       | 0.000002 | 0.000000 |   0.000000 |
+| removing tmp table   | 0.000006 | 0.000000 |   0.000000 |
+| closing tables       | 0.000006 | 0.000000 |   0.000000 |
+| freeing items        | 0.000048 | 0.000000 |   0.000000 |
+| cleaning up          | 0.000015 | 0.000000 |   0.000000 |
++----------------------+----------+----------+------------+
+
+
+

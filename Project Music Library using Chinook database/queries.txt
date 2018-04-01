@@ -1,0 +1,15 @@
+
+SALES OF AN ARTIST(name)
+
+SELECT  COUNT( invoicelineid ) FROM invoiceline INNER JOIN (SELECT trackid FROM track INNER JOIN (SELECT albumid FROM album INNER JOIN artist ON album.artistid = artist.artistid AND artist.Name="Metallica" ) as A ON  track.albumid=A.albumid ) as T ON invoiceline.trackid = T.trackid 
+
+
+NO. OF TRACKS A CUSTOMER BOUGHT
+
+SELECT COUNT(invoicelineid) FROM invoiceline INNER JOIN (SELECT invoiceid FROM customer INNER JOIN invoice ON customer.customerid=invoice.customerid AND customer.firstname="Martha" AND customer.lastname="Silk" ) as I ON invoiceline.invoiceid=I.invoiceid
+
+Name of media types with a customer
+
+SELECT name FROM mediatype INNER JOIN (SELECT DISTINCT mediatypeid FROM track INNER JOIN (SELECT trackid FROM invoiceline INNER JOIN  ( SELECT invoicelineid FROM invoiceline INNER JOIN( SELECT invoiceid FROM invoice INNER JOIN customer ON invoice.customerid=customer.customerid AND customer.firstname="Frank" AND customer.lastname="Ralston" ) as I ON invoiceline.invoiceid=I.invoiceid ) as L ON invoiceline.invoicelineid= L.invoicelineid ) as T ON track.trackid=T.trackid ) as M ON mediatype.mediatypeid=M.mediatypeid
+
+

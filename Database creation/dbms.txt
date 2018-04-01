@@ -1,0 +1,58 @@
+create database mini_1;
+
+use mini_1;
+ 
+create table floor(
+     fid int NOT NULL,
+     off_id int DEFAULT 0 ,
+     PRIMARY KEY(fid));
+
+create table Section(
+    sid int NOT NULL,
+    gk_id int DEFAULT 0,
+    f_id int NOT NULL,
+    PRIMARY KEY(sid),
+    FOREIGN KEY(f_id) REFERENCES floor(fid));
+
+ create table Cell(
+    cid int NOT NULL,
+    s_id int NOT NULL,
+    f_id int NOT NULL,
+    PRIMARY KEY(cid),
+    FOREIGN KEY(s_id) REFERENCES Section(sid),
+    FOREIGN KEY(f_id) REFERENCES floor(fid));
+
+create table Employee(
+    eid INT NOT NULL AUTO_INCREMENT,
+    name VARCHAR(50) NOT NULL,
+    sex VARCHAR(2) NOT NULL,
+    type VARCHAR(12),
+    ph_no CHAR(10) NOT NULL,
+    address VARCHAR(60) NOT NULL,
+    duty int NOT NULL DEFAULT 1,
+    PRIMARY KEY(eid));
+
+ create table Prisoner(
+     pid int NOT NULL AUTO_INCREMENT,
+     name VARCHAR(50) NOT NULL,
+    sex CHAR(2) NOT NULL,
+    crime VARCHAR(50) NOT NULL,
+    in_date DATE NOT NULL,
+    rel_date DATE,
+    c_id int NOT NULL,
+     PRIMARY KEY(pid),
+    FOREIGN KEY(c_id) REFERENCES Cell(cid) );
+
+CREATE TABLE user(
+   id  int(11) NOT NULL AUTO_INCREMENT,
+   username varchar(255) NOT NULL,
+   email varchar(255) NOT NULL,
+   password varchar(255) NOT NULL,
+   active tinyint(1) NOT NULL,
+  PRIMARY KEY (id),
+  UNIQUE KEY username(username)
+);
+
+delimiter //
+CREATE TRIGGER check_rdate BEFORE INSERT ON prisoner FOR EACH ROW IF NEW.rel_date < CURDATE() THEN SET NEW.rel_date = CURDATE(); END IF;//
+delimiter ;

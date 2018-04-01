@@ -1,0 +1,148 @@
+mysql> show tables;
++-------------------+
+| Tables_in_chinook |
++-------------------+
+| album             |
+| artist            |
+| customer          |
+| employee          |
+| genre             |
+| invoice           |
+| invoiceline       |
+| mediatype         |
+| playlist          |
+| playlisttrack     |
+| track             |
++-------------------+
+
+mysql> desc album;
++----------+--------------+------+-----+---------+-------+
+| Field    | Type         | Null | Key | Default | Extra |
++----------+--------------+------+-----+---------+-------+
+| AlbumId  | int(11)      | NO   | PRI | NULL    |       |
+| Title    | varchar(160) | NO   |     | NULL    |       |
+| ArtistId | int(11)      | NO   | MUL | NULL    |       |
++----------+--------------+------+-----+---------+-------+
+
+mysql> desc artist;
++----------+--------------+------+-----+---------+-------+
+| Field    | Type         | Null | Key | Default | Extra |
++----------+--------------+------+-----+---------+-------+
+| ArtistId | int(11)      | NO   | PRI | NULL    |       |
+| Name     | varchar(120) | YES  |     | NULL    |       |
++----------+--------------+------+-----+---------+-------+
+
+mysql> desc customer;
++--------------+-------------+------+-----+---------+-------+
+| Field        | Type        | Null | Key | Default | Extra |
++--------------+-------------+------+-----+---------+-------+
+| CustomerId   | int(11)     | NO   | PRI | NULL    |       |
+| FirstName    | varchar(40) | NO   |     | NULL    |       |
+| LastName     | varchar(20) | NO   |     | NULL    |       |
+| Company      | varchar(80) | YES  |     | NULL    |       |
+| Address      | varchar(70) | YES  |     | NULL    |       |
+| City         | varchar(40) | YES  |     | NULL    |       |
+| State        | varchar(40) | YES  |     | NULL    |       |
+| Country      | varchar(40) | YES  |     | NULL    |       |
+| PostalCode   | varchar(10) | YES  |     | NULL    |       |
+| Phone        | varchar(24) | YES  |     | NULL    |       |
+| Fax          | varchar(24) | YES  |     | NULL    |       |
+| Email        | varchar(60) | NO   |     | NULL    |       |
+| SupportRepId | int(11)     | YES  | MUL | NULL    |       |
++--------------+-------------+------+-----+---------+-------+
+
+
+mysql> desc employee;
++------------+-------------+------+-----+---------+-------+
+| Field      | Type        | Null | Key | Default | Extra |
++------------+-------------+------+-----+---------+-------+
+| EmployeeId | int(11)     | NO   | PRI | NULL    |       |
+| LastName   | varchar(20) | NO   |     | NULL    |       |
+| FirstName  | varchar(20) | NO   |     | NULL    |       |
+| Title      | varchar(30) | YES  |     | NULL    |       |
+| ReportsTo  | int(11)     | YES  | MUL | NULL    |       |
+| BirthDate  | datetime    | YES  |     | NULL    |       |
+| HireDate   | datetime    | YES  |     | NULL    |       |
+| Address    | varchar(70) | YES  |     | NULL    |       |
+| City       | varchar(40) | YES  |     | NULL    |       |
+| State      | varchar(40) | YES  |     | NULL    |       |
+| Country    | varchar(40) | YES  |     | NULL    |       |
+| PostalCode | varchar(10) | YES  |     | NULL    |       |
+| Phone      | varchar(24) | YES  |     | NULL    |       |
+| Fax        | varchar(24) | YES  |     | NULL    |       |
+| Email      | varchar(60) | YES  |     | NULL    |       |
++------------+-------------+------+-----+---------+-------+
+
+mysql> desc genre;
++---------+--------------+------+-----+---------+-------+
+| Field   | Type         | Null | Key | Default | Extra |
++---------+--------------+------+-----+---------+-------+
+| GenreId | int(11)      | NO   | PRI | NULL    |       |
+| Name    | varchar(120) | YES  |     | NULL    |       |
++---------+--------------+------+-----+---------+-------+
+
+mysql> desc invoice;
++-------------------+---------------+------+-----+---------+-------+
+| Field             | Type          | Null | Key | Default | Extra |
++-------------------+---------------+------+-----+---------+-------+
+| InvoiceId         | int(11)       | NO   | PRI | NULL    |       |
+| CustomerId        | int(11)       | NO   | MUL | NULL    |       |
+| InvoiceDate       | datetime      | NO   |     | NULL    |       |
+| BillingAddress    | varchar(70)   | YES  |     | NULL    |       |
+| BillingCity       | varchar(40)   | YES  |     | NULL    |       |
+| BillingState      | varchar(40)   | YES  |     | NULL    |       |
+| BillingCountry    | varchar(40)   | YES  |     | NULL    |       |
+| BillingPostalCode | varchar(10)   | YES  |     | NULL    |       |
+| Total             | decimal(10,2) | NO   |     | NULL    |       |
++-------------------+---------------+------+-----+---------+-------+
+
+mysql> desc invoiceline;
++---------------+---------------+------+-----+---------+-------+
+| Field         | Type          | Null | Key | Default | Extra |
++---------------+---------------+------+-----+---------+-------+
+| InvoiceLineId | int(11)       | NO   | PRI | NULL    |       |
+| InvoiceId     | int(11)       | NO   | MUL | NULL    |       |
+| TrackId       | int(11)       | NO   | MUL | NULL    |       |
+| UnitPrice     | decimal(10,2) | NO   |     | NULL    |       |
+| Quantity      | int(11)       | NO   |     | NULL    |       |
++---------------+---------------+------+-----+---------+-------+
+
+mysql> desc mediatype;
++-------------+--------------+------+-----+---------+-------+
+| Field       | Type         | Null | Key | Default | Extra |
++-------------+--------------+------+-----+---------+-------+
+| MediaTypeId | int(11)      | NO   | PRI | NULL    |       |
+| Name        | varchar(120) | YES  |     | NULL    |       |
++-------------+--------------+------+-----+---------+-------+
+
+mysql> desc playlist;
++------------+--------------+------+-----+---------+-------+
+| Field      | Type         | Null | Key | Default | Extra |
++------------+--------------+------+-----+---------+-------+
+| PlaylistId | int(11)      | NO   | PRI | NULL    |       |
+| Name       | varchar(120) | YES  |     | NULL    |       |
++------------+--------------+------+-----+---------+-------+
+
+mysql> desc playlisttrack;
++------------+---------+------+-----+---------+-------+
+| Field      | Type    | Null | Key | Default | Extra |
++------------+---------+------+-----+---------+-------+
+| PlaylistId | int(11) | NO   | PRI | NULL    |       |
+| TrackId    | int(11) | NO   | PRI | NULL    |       |
++------------+---------+------+-----+---------+-------+
+
+mysql> desc track;
++--------------+---------------+------+-----+---------+-------+
+| Field        | Type          | Null | Key | Default | Extra |
++--------------+---------------+------+-----+---------+-------+
+| TrackId      | int(11)       | NO   | PRI | NULL    |       |
+| Name         | varchar(200)  | NO   |     | NULL    |       |
+| AlbumId      | int(11)       | YES  | MUL | NULL    |       |
+| MediaTypeId  | int(11)       | NO   | MUL | NULL    |       |
+| GenreId      | int(11)       | YES  | MUL | NULL    |       |
+| Composer     | varchar(220)  | YES  |     | NULL    |       |
+| Milliseconds | int(11)       | NO   |     | NULL    |       |
+| Bytes        | int(11)       | YES  |     | NULL    |       |
+| UnitPrice    | decimal(10,2) | NO   |     | NULL    |       |
++--------------+---------------+------+-----+---------+-------+
+
